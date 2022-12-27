@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: bisque;
+        }
+        .container{
+            background-color: white;
+            width: 20vw;
+            height: 20vw;
+            border: 3px solid rgb(96, 95, 95);
+            border-radius: 20%;
+            display: grid;
+            padding: 2vw 2vw;
+            box-shadow: 7px 8px rgba(0, 0, 0, 0.333);
+            transition: .3s;
+        }
+        .num-design{
+            width: 8vh;
+            height: 8vh;
+            background-color: black;
+            border-radius: 50%;
+            margin: 1vw 1vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+        }
+        .six{
+            grid-template-columns: repeat(2,1fr);
+            grid-template-rows: repeat(3,1fr);
+        }
+        .four{
+            grid-template-columns: repeat(2,1fr);
+            grid-template-rows: repeat(2,1fr);
+        }
+        .five{
+            grid-template-columns: repeat(3,1fr);
+            grid-template-rows: repeat(3,1fr);
+        }
+        .row1{
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        .row2{
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        .row3{
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        .t1{
+            transform: rotateX(160deg);
+        }
+        .t2{
+            transform: rotateY(240deg);
+        }
+        .t3{
+            transform: rotate(400deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <div class="num-design"></div>
+    </div>
+    <audio src="./dice.wav" id="dice">Dice Sound</audio>
+    <!-- scripting -->
+    <script>
+        let html=[`<div class="num-design"></div>`,
+        `<div class="num-design"></div><div class="num-design"></div>`,
+        `<div class="num-design"></div><div class="num-design"></div><div class="num-design"></div>`,
+        `<div class="num-design"></div><div class="num-design"></div><div class="num-design"></div><div class="num-design"></div>`,
+        `        <div class="row1">
+            <div class="num-design"></div>
+            <div class="num-design"></div>
+        </div>
+        <div class="row2"><div class="num-design"></div></div>
+        <div class="row1">
+            <div class="num-design"></div>
+            <div class="num-design"></div>
+        </div>`,
+        `<div class="num-design"></div><div class="num-design"></div><div class="num-design"></div><div class="num-design"></div><div class="num-design"></div><div class="num-design"></div>`
+    ];
+
+function dice_thrown(){
+    dice.currentTime=0;  
+    dice.play();
+    let val=Math.floor(Math.random()*6);
+    setTimeout(()=>{container.classList.add("t1");},30);
+    setTimeout(()=>{container.classList.add("t2");},100);
+    setTimeout(()=>{container.classList.add("t3");},200);
+    setTimeout(()=>{
+    if(container.classList.contains("four")){
+        container.classList.remove("four");
+    }else if(container.classList.contains("six")){
+        container.classList.remove("six");
+    }
+    container.innerHTML=html[val];
+    if(val===3){
+        container.classList.add("four");
+    }else if(val===5){
+        container.classList.add("six");
+    }
+},300);
+setTimeout(()=>{container.classList.remove("t1");},260);
+setTimeout(()=>{container.classList.remove("t2");},260);
+setTimeout(()=>{container.classList.remove("t3");},260);
+    }
+    
+container.addEventListener('click',()=>{
+        dice_thrown();
+});
+document.addEventListener('keyup', event => {
+  if (event.code === 'Space') {
+    dice_thrown();
+  }
+});
+</script>
+</body>
+</html>
